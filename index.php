@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style>
 <?php
-  $months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  $years = ["2018","2019","2020","2021"];
-  foreach ($years as $year) {
-    foreach($months as $month){
-      echo strtotime(`first day of ${month} ${year}`);
-    }
+ /* include("./request.php");
+  $request = new Request();
+  $user = array(
+    'nom' => 'Titi',
+    'prenom' => 'tartanpion',
+    'Agenda' => array("02/04/-2021", "05/04/2323"),
+    );
+  $request->createUser($user);*/
+  $firstYear = [];
+  $datetime = new DateTime('04-01-2021');
+  for($i=0;$i<208;$i++){
+    $firstYear [] = $datetime->format("d/m/Y");
+    $datetime->modify('+1 week');
   }
-?>
+  
+  foreach($firstYear as $day){
+    echo $day."\n";
+  }
+  
+  ?>
 
 <style type="text/css">
 .vincent {
@@ -67,7 +79,7 @@
 <option value="thomas">thomas</option>
 <option value="christophe">christophe</option>
 </select>
-</td><td>10/01/2021<select name="2" class="thomas">
+</td><td><?php echo($datetime->format('d/m/Y'));?><select name="2" class="thomas">
 <option value="personne">personne</option>
 <option value="vincent">vincent</option>
 <option value="david">david</option>
