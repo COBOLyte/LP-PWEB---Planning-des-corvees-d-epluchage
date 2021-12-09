@@ -1,77 +1,58 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style>
-<?php
- /* include("./request.php");
-  $request = new Request();
-  $user = array(
-    'nom' => 'Titi',
-    'prenom' => 'tartanpion',
-    'Agenda' => array("02/04/-2021", "05/04/2323"),
-    );
-  $request->createUser($user);*/
-  $firstYear = [];
-  $datetime = new DateTime('04-01-2021');
-  for($i=0;$i<208;$i++){
-    $firstYear [] = $datetime->format("d/m/Y");
-    $datetime->modify('+1 week');
-  }
-  
-  foreach($firstYear as $day){
-    echo $day."\n";
-  }
-  
-  ?>
-
-<style type="text/css">
-.vincent {
-	background-color: #FF9900;
-}
-.david {
-	background-color: #00CCFF;
-}
-.thomas {
-	background-color: #00FF33;
-}
-.christophe {
-	background-color: #FFFF00;
-}
-.PERSONNE{
-	background-color: #FF0000;
-}
-.personne{
-	background-color: #FF0000;
-}
-.container {
-	width:950px;
-	margin: 0 auto;
-}
-.annee {
-	text-align:center;
-}
-</style>
-<title>Planning Corvée Patates</title>
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="View/style/style.css">
+<title>Planning des corvées Patates</title>
+</head>
 <body>
+
+<?php
+/* include("./request.php");
+$request = new Request();
+$user = array(
+'nom' => 'Titi',
+'prenom' => 'tartanpion',
+'Agenda' => array("02/04/-2021", "05/04/2323"),
+);
+$request->createUser($user);*/
+$firstYear = [];
+$datetime = new DateTime('04-01-2021');
+for($i=0;$i<208;$i++){
+$firstYear [] = $datetime->format("d/m/Y");
+$datetime->modify('+1 week');
+}
+
+foreach($firstYear as $day){
+echo $day."\n";
+}
+?>
+
 <div class="container">
-  <p>Voici un calendrier annuel des corvées hebdomadaire d'épluchage des patates (rudimentaire et non finalisé !). </p>
-  <ul>
-    <li>Les éplucheurs sont répartis sur les 52 semaines de l'année. </li>
-    <li>Une selection de l'année permet de faire défiler le calendrier.</li>
-    <li>Les données seront stockées et gérées dans une base de données MongoDB. </li>
-    <li>Vous devez finaliser vous-même la structure JSON des collections correspondantes.</li>
-    <li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
-    <li>L'accès à l'agenda, par un utislisateur, est conditionné par une connexion à son compte.</li>
-  </ul>
-  <h1> Planning des corvées d'épluchage</h1>
+<p>Voici un calendrier annuel des corvées hebdomadaire d'épluchage des patates (rudimentaire et non finalisé !).</p>
+<ul>
+<li>Les éplucheurs sont répartis sur les 52 semaines de l'année.</li>
+<li>Une selection de l'année permet de faire défiler le calendrier.</li>
+<li>Les données seront stockées et gérées dans une base de données MongoDB.</li>
+<li>Vous devez finaliser vous-même la structure JSON des collections correspondantes.</li>
+<li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
+<li>L'accès à l'agenda, par un utislisateur, est conditionné par une connexion à son compte.</li>
+</ul>
+
+<h1> Planning des corvées d'épluchage</h1>
+
 <p class="annee"><label>Année : <select name="annee">
-  <option value="2014">2014</option>
-  <option value="2015">2015</option>
-  <option value="2016">2016</option>
-  <option value="2017">2017</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
 </select></label>
 </p>
+
 <form action="http://lp-projet-web.ovh/mongoDB/miniprojets/demo_planning.php#" method="post" name="form1" id="form1">
-	<input name="ecriture" type="hidden" value="1">
+<input name="ecriture" type="hidden" value="1">
 <table border="1" align="center"><tbody><tr><td>03/01/2021<select name="1" class="personne">
 <option value="personne">personne</option>
 <option value="vincent">vincent</option>
@@ -437,22 +418,21 @@
 <option value="christophe">christophe</option>
 </select>
 </td></tr></tbody></table><div>
-  <div align="center">
-  	<p>
-    	<input type="submit" value="Valider le planning">
-	</p>
-  </div>
+<div align="center">
+<p>
+<input type="submit" value="Valider le planning">
+</p>
+</div>
 </div>
 </form>
+
 <h2>Statistiques par ordre croissant</h2>
 <ol>
-  <li>Vincent : 5</li>
-  <li>Christophe : 6</li>
-  <li>David : 7</li>
-  <li>Thomas : 10</li>
+<li>Vincent : 5</li>
+<li>Christophe : 6</li>
+<li>David : 7</li>
+<li>Thomas : 10</li>
 </ol>
-<p>&nbsp;</p>
 </div>
-
-
-</body></html>
+</body>
+</html>
