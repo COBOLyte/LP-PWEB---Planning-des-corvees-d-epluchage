@@ -1,9 +1,9 @@
 <?php
     $dates = [];
-    $firstWeekOfCurrentYear = new DateTime('04-01-2021');
-    for ($i=0; $i < 52; $i++) {
-        $dates[] = $firstWeekOfCurrentYear->format("d/m/Y");
-        $firstWeekOfCurrentYear->modify('+1 week');
+    $firstMondayOfCurrentYear = new DateTime(date('d-m-Y', strtotime("first monday of 2020")));
+    for ($i = 0; $i < 52; $i++) {
+        $dates[] = $firstMondayOfCurrentYear->format("d/m/Y");
+        $firstMondayOfCurrentYear->modify('+1 week');
     }
 
     $cpt = 0;
@@ -38,12 +38,12 @@
     <table>
         <tbody>
             <?php foreach($dates as $date) : ?>
-                <?php if ($cpt == 4 || $cpt == 0) : ?>
+                <?php if ($cpt == 0) : ?>
                     <tr>
                 <?php endif; ?>
                         <td>
                             <?php echo($date); ?>
-                            <select name="1" class="personne">
+                            <select name="<?php echo($date); ?>" class="personne">
                                 <option value="personne">personne</option>
                                 <option value="vincent">vincent</option>
                                 <option value="david">david</option>
@@ -51,7 +51,7 @@
                                 <option value="christophe">christophe</option>
                             </select>
                         </td>
-                <?php $cpt++; if ($cpt == 4) : ?>
+                <?php if (++$cpt == 4) : ?>
                     </tr>
                 <?php $cpt = 0; endif; ?>
             <?php endforeach; ?>
