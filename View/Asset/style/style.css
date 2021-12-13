@@ -18,11 +18,8 @@
 .christophe {
     background-color: #FFFF00;
 }
-.PERSONNE{
-    background-color: #FF0000;
-}
 .personne{
-    background-color: #FF0000;
+    background-color: #FFFFFF;
 }
 .container {
     width:950px;
@@ -30,4 +27,9 @@
 }
 .annee {
     text-align:center;
+}
+
+table {
+    border: 1;
+    text-align: center;
 }

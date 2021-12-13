@@ -4,5 +4,9 @@ class PlanningController {
         $page = "planning/calendrier";
         require("./View/main.php");
     }
+
+    public function updatePlanning() {
+        
+    }
 }
 ?>
