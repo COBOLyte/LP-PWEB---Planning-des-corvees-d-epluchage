@@ -1,5 +1,4 @@
 
-
 <div class="container">
 <p>Voici un calendrier annuel des corvées hebdomadaire d'épluchage des patates (rudimentaire et non finalisé !).</p>
 <ul>

@@ -33,5 +33,9 @@ class PlanningController {
         $dates = array_slice($dates,0,52);
         return $dates;
     }
+
+    public function updatePlanning() {
+        
+    }
 }
 ?>
