@@ -1,14 +1,3 @@
-<?php
-    $dates = [];
-    $firstMondayOfCurrentYear = new DateTime(date('d-m-Y', strtotime("first monday of 2020")));
-    for ($i = 0; $i < 52; $i++) {
-        $dates[] = $firstMondayOfCurrentYear->format("d/m/Y");
-        $firstMondayOfCurrentYear->modify('+1 week');
-    }
-
-    $cpt = 0;
-?>
-
 <div class="container">
 <p>Voici un calendrier annuel des corvées hebdomadaire d'épluchage des patates (rudimentaire et non finalisé !).</p>
 <ul>
@@ -21,8 +10,7 @@
 </ul>
 
 <h1> Planning des corvées d'épluchage</h1>
-
-<p class="annee">
+    <form method="POST" name="annee"action="index.php?ctrl=planning&method=selectedYear">
     <label>Année :
         <select name="annee">
             <option value="2021">2021</option>
@@ -31,8 +19,9 @@
             <option value="2024">2024</option>
         </select>
     </label>
-</p>
-
+    <button type="submit">Valider</button>
+    </form>
+   
 <form action="#" method="post" name="form1" id="form1">
     <input name="ecriture" type="hidden" value="1">
     <table>
