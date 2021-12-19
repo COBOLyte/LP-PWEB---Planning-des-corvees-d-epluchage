@@ -1,12 +1,5 @@
-<div class="container">
-<p>Voici un calendrier annuel des corvées hebdomadaire d'épluchage des patates (rudimentaire et non finalisé !).</p>
 <ul>
-<li>Les éplucheurs sont répartis sur les 52 semaines de l'année.</li>
-<li>Une selection de l'année permet de faire défiler le calendrier.</li>
-<li>Les données seront stockées et gérées dans une base de données MongoDB.</li>
-<li>Vous devez finaliser vous-même la structure JSON des collections correspondantes.</li>
-<li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
-<li>L'accès à l'agenda, par un utislisateur, est conditionné par une connexion à son compte.</li>
+    <li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
 </ul>
 
 <h2 class="center">Liste des utilisateurs</h2>
@@ -34,7 +27,6 @@
                             
                             <?php
                             $colorCode = "#FFFFFF";
-                            
                             foreach ($users as $user) {
                                 foreach ($user->agenda as $a) {
                                     if ($a == $date) { $colorCode = $user->colorId; break; }
@@ -70,11 +62,10 @@
         <button type="button submit">Valider le planning</button>
     </form>
     
-    <h2>Statistiques par ordre croissant</h2>
+    <h2 class="stats">Statistiques par ordre croissant</h2>
     <ol>
     <li>Vincent : 5</li>
     <li>Christophe : 6</li>
     <li>David : 7</li>
     <li>Thomas : 10</li>
     </ol>
-    </div>

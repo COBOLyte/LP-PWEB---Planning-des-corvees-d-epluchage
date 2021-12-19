@@ -38,10 +38,10 @@ class PlanningController {
     
     private function getCalendar($annee) {
         $dates = [];
-        $firstMondayOfCurrentYear = new DateTime(date('d-m-Y', strtotime("first monday of january " . $annee)));
-        for ($i = 0; $i < 52; $i++) {
-            $dates[] = $firstMondayOfCurrentYear->format("d/m/Y");
-            $firstMondayOfCurrentYear->modify('+1 week');
+        $weekMonday = new DateTime(date('d-m-Y', strtotime("first monday of january " . $annee)));
+        while ($weekMonday->format("Y") == $annee) {
+            $dates[] = $weekMonday->format("d/m/Y");
+            $weekMonday->modify('+1 week');
         }
         return $dates;
     }
