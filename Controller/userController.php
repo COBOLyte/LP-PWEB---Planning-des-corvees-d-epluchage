@@ -2,10 +2,10 @@
 class UserController {
     private $userManager;
     
-    public function __construct($db1) {
+    public function __construct($db) {
         require_once("./Model/user/userManager.php");
-        $this->userManager = new UserManager($db1);
-        $this->db = $db1;
+        $this->userManager = new UserManager($db);
+        $this->db = $db;
     }
     
     public function create() {
@@ -30,7 +30,8 @@ class UserController {
                         $_POST["address"],
                         $_POST["postalCode"],
                         $_POST["city"],
-                        $_POST["country"]
+                        $_POST["country"],
+                        '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6)
                     );
                     $this->userManager->create($newUser);
                     $_SESSION["user"] = $this->userManager->findByEmail($_POST["email"]);

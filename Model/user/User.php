@@ -9,6 +9,7 @@ class User {
     private $city;
     private $country;
     private $agenda;
+    private $colorId;
     private $admin;
 
     public function __construct(
@@ -19,7 +20,8 @@ class User {
         string $address,
         string $postalCode,
         string $city,
-        string $country
+        string $country,
+        string $colorId
     ) {
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_BCRYPT);
@@ -30,6 +32,7 @@ class User {
         $this->city = $city;
         $this->country = $country;
         $this->agenda = [];
+        $this->colorId = $colorId;
         $this->admin = 0;
     }
     
@@ -60,6 +63,7 @@ class User {
             "city" => $this->city,
             "country" => $this->country,
             "agenda" => $this->agenda,
+            "colorId" => $this->colorId,
             "admin" => $this->admin
         );
     }

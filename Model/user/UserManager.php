@@ -38,6 +38,22 @@ class UserManager {
             $option = [];
             $read = new MongoDB\Driver\Query($filter, $option);
             $users = $this->db->executeQuery($this->collectionName, $read);
+            $user = null;
+            foreach ($users as $userEntry) {
+                $user = $userEntry;
+                break;
+            }
+        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $user;
+    }
+
+    public function findByDate(string $date) {
+        try {
+            $filter = ["agenda" => $date];
+            $option = [];
+            $read = new MongoDB\Driver\Query($filter, $option);
+            $users = $this->db->executeQuery($this->collectionName, $read);
+            $user = null;
             foreach ($users as $userEntry) {
                 $user = $userEntry;
                 break;
@@ -79,6 +95,30 @@ class UserManager {
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
+    public function addDate($email, $date) {
+        try {
+            $updates = new MongoDB\Driver\BulkWrite();
+            $updates->update(
+                ["email" => $email],
+                ['$push' => ["agenda" => $date]],
+                ["multi" => true, "upsert" => true]
+            );
+            $this->db->executeBulkWrite($this->collectionName, $updates);
+        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+    }
+
+    public function removeDate($email, $date) {
+        try {
+            $updates = new MongoDB\Driver\BulkWrite();
+            $updates->update(
+                ["email" => $email],
+                ['$pull' => ["agenda" => $date]],
+                ["multi" => true, "upsert" => true]
+            );
+            $this->db->executeBulkWrite($this->collectionName, $updates);
+        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+    }
+
     public function delete($id) {
         try {
             $bulk = new MongoDB\Driver\BulkWrite();
@@ -97,10 +137,7 @@ class UserManager {
             $updates = new MongoDB\Driver\BulkWrite();
             $updates->update(
                 ["_id" => new MongoDB\BSON\ObjectId($id)],
-                ['$set' => [
-                    "password" => password_hash($newPassword, PASSWORD_BCRYPT)
-                    ]
-                ],
+                ['$set' => ["password" => password_hash($newPassword, PASSWORD_BCRYPT)]],
                 ["multi" => true, "upsert" => true]
             );
             $this->db->executeBulkWrite($this->collectionName, $updates);

@@ -2,10 +2,10 @@
 class SecurityController {
     private $userManager;
 
-    public function __construct($db1) {
+    public function __construct($db) {
         require_once("./Model/User/userManager.php");
-        $this->userManager = new UserManager($db1);
-        $this->db = $db1;
+        $this->userManager = new UserManager($db);
+        $this->db = $db;
     }
 
     public function login() {

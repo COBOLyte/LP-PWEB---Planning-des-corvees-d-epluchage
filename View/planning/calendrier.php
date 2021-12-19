@@ -9,51 +9,65 @@
 <li>L'accès à l'agenda, par un utislisateur, est conditionné par une connexion à son compte.</li>
 </ul>
 
-<h1> Planning des corvées d'épluchage</h1>
-    <form method="POST" name="annee"action="index.php?ctrl=planning&method=selectedYear">
-    <label>Année :
-        <select name="annee">
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-        </select>
-    </label>
-    <button type="submit">Valider</button>
+<h2 class="center">Liste des utilisateurs</h2>
+    <form action="./index.php?ctrl=planning&method=index" method="POST">
+        <label>Année :
+            <select name="annee" id="annee">
+                <?php foreach($anneesOptions as $anneeOpt) : ?>
+                    <option <?php if ($anneeOpt == $annee) : ?> selected <?php endif; ?> value="<?php echo($anneeOpt) ?>"><?php echo($anneeOpt) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+        <button type="button submit">Changer</button>
     </form>
    
-<form action="#" method="post" name="form1" id="form1">
-    <input name="ecriture" type="hidden" value="1">
+<form action="index.php?ctrl=planning&method=updatePlanning" method="POST">
     <table>
+        <input type="hidden" name="currentYear" value="<?php echo($annee); ?>">
         <tbody>
-            <?php foreach($dates as $date) : ?>
-                <?php if ($cpt == 0) : ?>
+            <?php foreach ($dates as $date) : ?>
+                <?php if ($column == 0) : ?>
                     <tr>
                 <?php endif; ?>
                         <td>
                             <?php echo($date); ?>
-                            <select name="<?php echo($date); ?>" class="personne">
-                                <option value="personne">personne</option>
-                                <option value="vincent">vincent</option>
-                                <option value="david">david</option>
-                                <option value="thomas">thomas</option>
-                                <option value="christophe">christophe</option>
+                            
+                            <?php
+                            $colorCode = "#FFFFFF";
+                            
+                            foreach ($users as $user) {
+                                foreach ($user->agenda as $a) {
+                                    if ($a == $date) { $colorCode = $user->colorId; break; }
+                                }
+                            }
+                            ?>
+                            
+                            <select style="background-color: <?php  echo($colorCode); ?>" name="<?php echo($date); ?>">
+                                <option value="-">-</option>
+
+                                <?php foreach ($users as $user) : ?>
+                                    <option
+                                    value="<?php echo($user->email); ?>"
+                                    <?php foreach ($user->agenda as $a) : ?>
+                                        <?php if ($a == $date) : ?>
+                                            selected
+                                            <?php break; ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                    >
+                                    <?php echo($user->email); ?>
+                                </option>
+                                <?php endforeach; ?>
+
                             </select>
                         </td>
-                <?php if (++$cpt == 4) : ?>
+                <?php if (++$column == 4) : ?>
                     </tr>
-                <?php $cpt = 0; endif; ?>
+                <?php $column = 0; endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
-            
-<div>
-    <div align="center">
-    <p>
-    <input type="submit" value="Valider le planning">
-    </p>
-    </div>
-    </div>
+        <button type="button submit">Valider le planning</button>
     </form>
     
     <h2>Statistiques par ordre croissant</h2>
