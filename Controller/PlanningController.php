@@ -17,7 +17,7 @@ class PlanningController {
         $dates = $this->getCalendar($annee);
         $anneesOptions = [2021, 2022, 2023, 2024, 2025];
         $users = $this->userManager->findAll();
-        
+        //$ArraySorted = $this->sortData();
         $page = "planning/calendrier";
         require_once("./View/main.php");
     }
@@ -45,5 +45,25 @@ class PlanningController {
         }
         return $dates;
     }
+
+    /*public function sortData(){
+        $users = $this->userManager->findAll();
+        foreach($users as $user){
+            $usersArray [] = [$user->email => count($user->agenda)];
+            $data [ ]=  count($user->agenda);
+        }
+        $ArraySorted = [];
+        for ($i=0; $i < count($usersArray) ; $i++){
+            foreach($usersArray[$i] as $key => $value ){             
+                if(count($data) > 0) {
+                    $min = min($data);
+                    $index = array_search($min,$data);
+                    unset($data[$index]);
+                }
+                $ArraySorted [] = $usersArray[$index];
+            }
+        }
+        return $ArraySorted;    
+    }*/
 }
 ?>

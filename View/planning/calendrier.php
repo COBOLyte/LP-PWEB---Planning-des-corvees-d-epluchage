@@ -61,11 +61,14 @@
     </table>
         <button type="button submit">Valider le planning</button>
     </form>
-    
     <h2 class="stats">Statistiques par ordre croissant</h2>
     <ol>
-    <li>Vincent : 5</li>
-    <li>Christophe : 6</li>
-    <li>David : 7</li>
-    <li>Thomas : 10</li>
+    <?php //for ($i=0; $i < count($ArraySorted) ; $i++):?>
+        <?php //foreach ($ArraySorted[$i] as $key => $value):?>
+            <?php //echo("<li>".$key ." : ". $value."</li>");?>
+        <?php // endforeach ?>
+    <?php //endfor ?>
     </ol>
+   
+ 
+ 
