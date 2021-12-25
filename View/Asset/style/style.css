@@ -24,6 +24,10 @@ form {
     text-align: center;
 }
 
+#annee {
+    width: 5.5em;
+}
+
 .stats {
     margin-left: 1em;
 }

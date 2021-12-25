@@ -1,3 +1,11 @@
+<style>
+    .personne { background-color: #FFFFFF; }
+
+    <?php foreach ($users as $user) : ?>
+        .<?php echo($user->firstName); ?> { background-color: <?php echo($user->colorId); ?>; }
+    <?php endforeach; ?>
+</style>
+
 <ul>
     <li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
 </ul>
@@ -26,15 +34,15 @@
                             <?php echo($date); ?>
                             
                             <?php
-                            $colorCode = "#FFFFFF";
+                            $selectClass = "personne";
                             foreach ($users as $user) {
                                 foreach ($user->agenda as $a) {
-                                    if ($a == $date) { $colorCode = $user->colorId; break; }
+                                    if ($a == $date) { $selectClass = $user->firstName; break; }
                                 }
                             }
                             ?>
                             
-                            <select style="background-color: <?php  echo($colorCode); ?>" name="<?php echo($date); ?>">
+                            <select class="<?php echo($selectClass); ?>" name="<?php echo($date); ?>">
                                 <option value="-">-</option>
 
                                 <?php foreach ($users as $user) : ?>
@@ -69,6 +77,4 @@
         <?php // endforeach ?>
     <?php //endfor ?>
     </ol>
-   
- 
- 
+    
