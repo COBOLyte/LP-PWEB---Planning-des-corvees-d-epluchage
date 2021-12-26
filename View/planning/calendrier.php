@@ -42,7 +42,11 @@
                             }
                             ?>
                             
-                            <select class="<?php echo($selectClass); ?>" name="<?php echo($date); ?>">
+                            <select
+                                class="<?php echo($selectClass); ?>"
+                                name="<?php echo($date); ?>"
+                                <?php if ($_SESSION['user']->admin != 1) : ?> disabled="disabled" <?php endif; ?>
+                            >
                                 <option value="-">-</option>
 
                                 <?php foreach ($users as $user) : ?>
@@ -67,7 +71,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-        <button type="button submit">Valider le planning</button>
+        <?php if ($_SESSION['user']->admin == 1) : ?>
+            <button type="button submit">Valider le planning</button>
+        <?php endif; ?>
     </form>
     <h2 class="stats">Statistiques par ordre croissant</h2>
     <ol>
