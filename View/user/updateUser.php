@@ -9,6 +9,7 @@
         <input type="text" name="postalCode" placeholder="Code postal" value="<?php echo($user->postalCode) ?>"/><br>
         <input type="text" name="city" placeholder="Ville" value="<?php echo($user->country) ?>"/><br>
         <input type="text" name="country" placeholder="Pays" value="<?php echo($user->city) ?>"/><br>
+        <input type="text" name="colorId" value="<?php echo($user->colorId) ?>" required/><br>
         <label>Admin ?
             <input type="radio" id="admin0"
             name="admin" value="0" <?php if ($user->admin == 0) : ?> checked <?php endif; ?>>

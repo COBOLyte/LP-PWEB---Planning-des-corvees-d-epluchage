@@ -1,3 +1,9 @@
+<style>    
+    <?php foreach ($users as $user) : ?>
+        .<?php echo($user->firstName); ?> { background-color: <?php echo($user->colorId); ?>; }
+    <?php endforeach; ?>
+</style>
+
 <div>
     <h2 class="center">Liste des utilisateurs</h2>
     <table class="center">
@@ -10,6 +16,7 @@
             <th>CODE POSTAL</th>
             <th>VILLE</th>
             <th>PAYS</th>
+            <th>CODE COULEUR</th>
             <th>ADMIN</th>
             <th></th>
             <th></th>
@@ -24,6 +31,7 @@
             <td><?php echo($user->postalCode) ?></td>
             <td><?php echo($user->city) ?></td>
             <td><?php echo($user->country) ?></td>
+            <td class="<?php echo($user->firstName); ?> color-td-text"><?php echo($user->colorId) ?></td>
             <td><?php 
             if ($user->admin == 1) echo("Oui");
             else echo ("Non");

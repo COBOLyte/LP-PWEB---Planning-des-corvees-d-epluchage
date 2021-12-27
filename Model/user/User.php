@@ -51,6 +51,8 @@ class User {
     public final function getCity() { return $this->city; }
     
     public final function getCountry() { return $this->country; }
+
+    public final function getColorId() { return $this->colorId; }
         
     public final function getJson() {
         return array(

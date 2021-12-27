@@ -21,37 +21,18 @@ class UserManager {
     public function findOne($id) {
         try {
             $filter = ["_id" => new MongoDB\BSON\ObjectId($id)];
-            $option = [];
-            $read = new MongoDB\Driver\Query($filter, $option);
-            $users = $this->db->executeQuery($this->collectionName, $read);
-            foreach ($users as $userEntry) {
-                $user = $userEntry;
-                break;
-            }
+            $options = [];
+            $read = new MongoDB\Driver\Query($filter, $options);
+            $user = $this->db->executeQuery($this->collectionName, $read);
         } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $user;
+        return $user->toArray()[0];
     }
     
     public function findByEmail(string $email) {
         try {
             $filter = ["email" => $email];
-            $option = [];
-            $read = new MongoDB\Driver\Query($filter, $option);
-            $users = $this->db->executeQuery($this->collectionName, $read);
-            $user = null;
-            foreach ($users as $userEntry) {
-                $user = $userEntry;
-                break;
-            }
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $user;
-    }
-
-    public function findByDate(string $date) {
-        try {
-            $filter = ["agenda" => $date];
-            $option = [];
-            $read = new MongoDB\Driver\Query($filter, $option);
+            $options = [];
+            $read = new MongoDB\Driver\Query($filter, $options);
             $users = $this->db->executeQuery($this->collectionName, $read);
             $user = null;
             foreach ($users as $userEntry) {
@@ -65,12 +46,11 @@ class UserManager {
     public function findAll() {
         try {
             $filter = [];
-            $option = [];
-            $read = new MongoDB\Driver\Query($filter, $option);
-            $usersFound = $this->db->executeQuery($this->collectionName, $read);
-            foreach ($usersFound as $user) $users[] = $user;
+            $options = [];
+            $read = new MongoDB\Driver\Query($filter, $options);
+            $users = $this->db->executeQuery($this->collectionName, $read);
         } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $users;
+        return $users->toArray();
     }
     
     public function update($id, User $user, int $admin) {
@@ -86,6 +66,7 @@ class UserManager {
                     "postalCode" => $user->getPostalCode(),
                     "city" => $user->getCity(),
                     "country" => $user->getCountry(),
+                    "colorId" => $user->getColorId(),
                     "admin" => $admin
                     ]
                 ],
@@ -95,30 +76,6 @@ class UserManager {
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
-    public function addDate($email, $date) {
-        try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
-                ["email" => $email],
-                ['$push' => ["agenda" => $date]],
-                ["multi" => true, "upsert" => true]
-            );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-
-    public function removeDate($email, $date) {
-        try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
-                ["email" => $email],
-                ['$pull' => ["agenda" => $date]],
-                ["multi" => true, "upsert" => true]
-            );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-
     public function delete($id) {
         try {
             $bulk = new MongoDB\Driver\BulkWrite();
@@ -142,6 +99,63 @@ class UserManager {
             );
             $this->db->executeBulkWrite($this->collectionName, $updates);
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+    }
+
+    public function findByDate(string $date) {
+        try {
+            $filter = ["agenda" => $date];
+            $options = [];
+            $read = new MongoDB\Driver\Query($filter, $options);
+            $users = $this->db->executeQuery($this->collectionName, $read);
+            $user = null;
+            foreach ($users as $userEntry) {
+                $user = $userEntry; break;
+            }
+        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $user;
+    }
+    
+    public function addDate(string $email, string $date) {
+        try {
+            $updates = new MongoDB\Driver\BulkWrite();
+            $updates->update(
+                ['email' => $email],
+                ['$push' => ['agenda' => $date]],
+                ['multi' => true, 'upsert' => true]
+            );
+            $this->db->executeBulkWrite($this->collectionName, $updates);
+        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+    }
+    
+    public function removeDate(string $email, string $date) {
+        try {
+            $updates = new MongoDB\Driver\BulkWrite();
+            $updates->update(
+                ['email' => $email],
+                ['$pull' => ['agenda' => $date]],
+                ['multi' => true, 'upsert' => true]
+            );
+            $this->db->executeBulkWrite($this->collectionName, $updates);
+        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+    }
+    
+    public function getEachAgendaLengthInAscOrder() {
+        try {
+            $filter = [];
+            $options = [
+                'projection' => [
+                    'firstName' => 1,
+                    'agenda' => 1
+                ],
+                'count' => 'agenda',
+                /* Choix d'un tri : item et ordre */
+                'sort' => ['count' => 1]
+            ];
+            $query = new MongoDB\Driver\Query($filter, $options);
+            $readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
+            $cursor = $this->db->executeQuery($this->collectionName, $query, $readPreference);
+        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $cursor->toArray();
     }
 }
 ?>

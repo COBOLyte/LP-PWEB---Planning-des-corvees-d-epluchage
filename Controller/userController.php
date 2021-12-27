@@ -56,7 +56,7 @@ class UserController {
         }
 
         public function update() {
-            if (isset($_POST["email"]) && isset($_POST["admin"])) {
+            if (isset($_POST["email"]) && isset($_POST["admin"]) && isset($_POST["colorId"])) {
 
                 $alreadyExist = $this->userManager->findByEmail($_POST["email"]);
                 if ($alreadyExist->_id == $_GET["id"]) {
@@ -68,7 +68,8 @@ class UserController {
                         $_POST["address"],
                         $_POST["postalCode"],
                         $_POST["city"],
-                        $_POST["country"]
+                        $_POST["country"],
+                        $_POST["colorId"]
                     );
                     $this->userManager->update($_GET["id"], $user, $_POST["admin"]);
                     if ($_POST["password"] != "") $this->userManager->changePassword($_GET["id"], $_POST["password"]);

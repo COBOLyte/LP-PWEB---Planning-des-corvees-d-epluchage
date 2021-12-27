@@ -75,12 +75,11 @@
             <button type="button submit">Valider le planning</button>
         <?php endif; ?>
     </form>
+
     <h2 class="stats">Statistiques par ordre croissant</h2>
     <ol>
-    <?php //for ($i=0; $i < count($ArraySorted) ; $i++):?>
-        <?php //foreach ($ArraySorted[$i] as $key => $value):?>
-            <?php //echo("<li>".$key ." : ". $value."</li>");?>
-        <?php // endforeach ?>
-    <?php //endfor ?>
+        <?php foreach ($agendas as $entry) : ?>
+        <li><?php echo($entry->firstName . ": " . count($entry->agenda)); ?></li>
+        <?php endforeach; ?>
     </ol>
     
