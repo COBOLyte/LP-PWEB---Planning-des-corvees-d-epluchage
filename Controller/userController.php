@@ -36,7 +36,6 @@ class UserController {
                     $this->userManager->create($newUser);
                     $_SESSION["user"] = $this->userManager->findByEmail($_POST["email"]);
                     $page = "home";
-
                 } else {
                     $error = 'ERREUR: Le mail "'.$_POST['email'].'" est déjà pris par un autre utilisateur.';
                     $page = "user/createAccount";

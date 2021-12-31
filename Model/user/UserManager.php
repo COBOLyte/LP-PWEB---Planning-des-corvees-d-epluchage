@@ -3,85 +3,59 @@ require_once("./Model/user/user.php");
 
 class UserManager {
     private $db;
-    private $collectionName;
+    private $collection;
     
     public function __construct($db) {
         $this->db = $db;
-        $this->collectionName = "planningPatate.users";
+        $this->collection = $this->db->planningPatate->users;
     }
     
     public function create(User $user) {
-        try {
-            $single_insert = new MongoDB\Driver\BulkWrite();
-            $single_insert->insert($user->getJson());
-            $this->db->executeBulkWrite($this->collectionName, $single_insert);
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        try { $this->collection->insertOne($user->getJson()); }
+        catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
     public function findOne($id) {
-        try {
-            $filter = ["_id" => new MongoDB\BSON\ObjectId($id)];
-            $options = [];
-            $read = new MongoDB\Driver\Query($filter, $options);
-            $user = $this->db->executeQuery($this->collectionName, $read);
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $user->toArray()[0];
+        try { $cursor = $this->collection->findOne(['_id' => new MongoDB\BSON\ObjectId($id)]); }
+        catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $cursor;
     }
     
     public function findByEmail(string $email) {
-        try {
-            $filter = ["email" => $email];
-            $options = [];
-            $read = new MongoDB\Driver\Query($filter, $options);
-            $users = $this->db->executeQuery($this->collectionName, $read);
-            $user = null;
-            foreach ($users as $userEntry) {
-                $user = $userEntry;
-                break;
-            }
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $user;
+        try { $cursor = $this->collection->findOne(['email' => $email]); }
+        catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $cursor;
     }
     
     public function findAll() {
-        try {
-            $filter = [];
-            $options = [];
-            $read = new MongoDB\Driver\Query($filter, $options);
-            $users = $this->db->executeQuery($this->collectionName, $read);
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $users->toArray();
+        try { $cursor = $this->collection->find(); }
+        catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $cursor->toArray();
     }
     
     public function update($id, User $user, int $admin) {
         try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
-                ["_id" => new MongoDB\BSON\ObjectId($id)],
+            $this->collection->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId($id)],
                 ['$set' => [
-                    "email" => $user->getEmail(),
-                    "firstName" => $user->getFirstName(),
-                    "lastName" => $user->getLastName(),
-                    "address" => $user->getAddress(),
-                    "postalCode" => $user->getPostalCode(),
-                    "city" => $user->getCity(),
-                    "country" => $user->getCountry(),
-                    "colorId" => $user->getColorId(),
-                    "admin" => $admin
+                    'email' => $user->getEmail(),
+                    'firstName' => $user->getFirstName(),
+                    'lastName' => $user->getLastName(),
+                    'address' => $user->getAddress(),
+                    'postalCode' => $user->getPostalCode(),
+                    'city' => $user->getCity(),
+                    'country' => $user->getCountry(),
+                    'colorId' => $user->getColorId(),
+                    'admin' => $admin
                     ]
-                ],
-                ["multi" => true, "upsert" => true]
+                ]
             );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
     public function delete($id) {
-        try {
-            $bulk = new MongoDB\Driver\BulkWrite();
-            $bulk->delete(["_id" => new MongoDB\BSON\ObjectId($id)]);
-            $this->db->executeBulkWrite($this->collectionName, $bulk);
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        try { $this->collection->deleteOne(['_id' => new MongoDB\BSON\ObjectId($id)]); }
+        catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
     public function login(string $email, string $password) {
@@ -91,55 +65,38 @@ class UserManager {
     
     public function changePassword($id, string $newPassword) {
         try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
-                ["_id" => new MongoDB\BSON\ObjectId($id)],
-                ['$set' => ["password" => password_hash($newPassword, PASSWORD_BCRYPT)]],
-                ["multi" => true, "upsert" => true]
+            $this->collection->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId($id)],
+                ['$set' => ['password' => password_hash($newPassword, PASSWORD_BCRYPT)]],
             );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
 
     public function findByDate(string $date) {
-        try {
-            $filter = ["agenda" => $date];
-            $options = [];
-            $read = new MongoDB\Driver\Query($filter, $options);
-            $users = $this->db->executeQuery($this->collectionName, $read);
-            $user = null;
-            foreach ($users as $userEntry) {
-                $user = $userEntry; break;
-            }
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $user;
+        try { $cursor = $this->collection->findOne(['agenda' => $date]); }
+        catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+        return $cursor;
     }
     
     public function addDate(string $email, string $date) {
         try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
+            $this->collection->updateOne(
                 ['email' => $email],
                 ['$push' => ['agenda' => $date]],
-                ['multi' => true, 'upsert' => true]
             );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
     public function removeDate(string $email, string $date) {
         try {
-            $updates = new MongoDB\Driver\BulkWrite();
-            $updates->update(
+            $this->collection->updateOne(
                 ['email' => $email],
                 ['$pull' => ['agenda' => $date]],
-                ['multi' => true, 'upsert' => true]
             );
-            $this->db->executeBulkWrite($this->collectionName, $updates);
         } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
     }
     
-    public function getEachAgendaLengthInAscOrder() {
+/*     public function getEachAgendaLengthInAscOrder() {
         try {
             $filter = [];
             $options = [
@@ -147,15 +104,13 @@ class UserManager {
                     'firstName' => 1,
                     'agenda' => 1
                 ],
-                'count' => 'agenda',
-                /* Choix d'un tri : item et ordre */
-                'sort' => ['count' => 1]
+                'sort' => ['firstName' => 1]
             ];
             $query = new MongoDB\Driver\Query($filter, $options);
             $readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
             $cursor = $this->db->executeQuery($this->collectionName, $query, $readPreference);
         } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
         return $cursor->toArray();
-    }
+    } */
 }
 ?>

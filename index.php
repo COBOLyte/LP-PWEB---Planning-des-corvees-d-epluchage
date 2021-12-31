@@ -1,6 +1,8 @@
 <?php
-session_start();
+require_once("vendor/autoload.php");
 require_once("./Model/connection.php");
+
+session_start();
 $connection = new Connection();
 $db = $connection->getDb();
 

@@ -77,9 +77,9 @@
     </form>
 
     <h2 class="stats">Statistiques par ordre croissant</h2>
-    <ol>
+<!--     <ol>
         <?php foreach ($agendas as $entry) : ?>
         <li><?php echo($entry->firstName . ": " . count($entry->agenda)); ?></li>
         <?php endforeach; ?>
-    </ol>
+    </ol> -->
     

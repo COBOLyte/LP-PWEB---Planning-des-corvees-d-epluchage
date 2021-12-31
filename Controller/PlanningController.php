@@ -16,7 +16,8 @@ class PlanningController {
         $dates = $this->getCalendar($annee);
         $anneesOptions = [2021, 2022, 2023, 2024, 2025];
         $users = $this->userManager->findAll();
-        $agendas = $this->userManager->getEachAgendaLengthInAscOrder();
+        //$agendas = $this->userManager->getEachAgendaLengthInAscOrder();
+        //var_dump($agendas);
         $page = "planning/calendrier";
         require_once("./View/main.php");
     }
@@ -25,6 +26,7 @@ class PlanningController {
         $dates = $this->getCalendar($_POST['currentYear']);
         foreach($dates as $d) {
             $userAlreadyHavingTheDate = $this->userManager->findByDate($d);
+            var_dump($userAlreadyHavingTheDate);
             if ($_POST[$d] != "-") {
                 if ($userAlreadyHavingTheDate) $this->userManager->removeDate($userAlreadyHavingTheDate->email, $d);
                 $this->userManager->addDate($_POST[$d], $d);
