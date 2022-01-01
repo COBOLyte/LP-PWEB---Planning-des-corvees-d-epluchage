@@ -6,10 +6,6 @@
     <?php endforeach; ?>
 </style>
 
-<ul>
-    <li>Les statistiques de l'année (Nb de semaines pour chaque participants, ...) seront calculées par les bonnes requêtes MongoDB (pas en PHP):</li>
-</ul>
-
 <h2 class="center">Liste des utilisateurs</h2>
     <form action="./index.php?ctrl=planning&method=index" method="POST">
         <label>Année :
@@ -77,7 +73,7 @@
     </form>
 
     <h2 class="center">Statistiques</h2>
-    <h2 class="stats">Nombre de jours occupés par l'utilisateur et par ordre croissant :</h2>
+    <h2 class="stats">Nombre de jours total occupés par l'utilisateur et par ordre croissant :</h2>
     <ol>
         <?php foreach ($agendasInAscOrder as $entry) : ?>
         <li><?php echo($entry->email . " : " . $entry->datesNb . " jour(s)"); ?></li>

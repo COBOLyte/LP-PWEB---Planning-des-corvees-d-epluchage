@@ -1,0 +1,20 @@
+- FONCTIONNALITÉS DÉVELOPPÉES ET ATTENDUES -
+    ) Sélection d'une année pour faire défiler le calendrier
+    ) Données stockées et gérées dans une base de données MongoDB
+    ) Structure JSON finalisée de manière autonome (voir "structurejson_user.txt")
+    ) Accès à l'agenda conditionné par la connexion au compte de l'utilisateur
+    ) Affichage de statistiques calculées par des requêtes MongoDB
+
+- FONCTIONNALITÉS PERSONNELLES -
+    ) Gestion des plannings seulement possible par les Admins. L'utilisateur normal ne peut que consulter les plannings.
+    ) Possibilité de modifier la couleur rattachée à un utilisateur, sur la page de modification des données utilisateurs. (Seulement par les Admins)
+    ) Utilisation de la librairie PHP-MongoDB installée avec Composer, jugée plus simple de compréhension et d'utilisation, et ayant permis de réduire la quantité de code.
+
+- FONCTIONNALITÉS DÉVELOPPÉES ET ATTENDUES (Niveau de complétion) -
+    ) Sélection d'une année pour faire défiler le calendrier : Finalisée
+    ) Données stockées et gérées dans une base de données MongoDB : Finalisée
+    ) Structure JSON finalisée de manière autonome (voir "structurejson_user.txt") : Finalisée
+    ) Accès à l'agenda conditionné par la connexion au compte de l'utilisateur : Finalisée
+    ) Affichage de statistiques calculées par des requêtes MongoDB : Partielle
+En effet, la requête permettant de récupérer le nombre de jours occupés dans l'année ne permet, en faîte, que de récupérer des valeurs booléennes pour chaque date enregistrée dans la BD (Vraie, si l'année recherchée, Faux, sinon). À partir de cela, le nombre de valeur "vraie" est compté et c'est ceci qui représente le résultat final.
+Face à la difficulté de cet exercice, le développement de cette requête-ci n'a pu aboutir et la solution présentée précédemment fut préconisée.
