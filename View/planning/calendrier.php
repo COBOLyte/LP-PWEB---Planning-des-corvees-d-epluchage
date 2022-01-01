@@ -76,10 +76,11 @@
         <?php endif; ?>
     </form>
 
-    <h2 class="stats">Statistiques par ordre croissant</h2>
-<!--     <ol>
-        <?php foreach ($agendas as $entry) : ?>
-        <li><?php echo($entry->firstName . ": " . count($entry->agenda)); ?></li>
+    <h2 class="center">Statistiques</h2>
+    <h2 class="stats">Nombre de jours occupés par l'utilisateur et par ordre croissant :</h2>
+    <ol>
+        <?php foreach ($agendasInAscOrder as $entry) : ?>
+        <li><?php echo($entry->email . " : " . $entry->datesNb . " jour(s)"); ?></li>
         <?php endforeach; ?>
-    </ol> -->
-    
+    </ol>
+    <h2 class="stats">Nombre de jours occupés dans l'année <?php echo($annee); ?> : <span class="stats-normal"><?php echo($cptAnnee); ?> jour(s)</span></h2>

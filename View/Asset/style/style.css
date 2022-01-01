@@ -31,3 +31,8 @@ form {
 .stats {
     margin-left: 1em;
 }
+
+.stats-normal {
+    font-weight: initial;
+    font-size: large;
+}

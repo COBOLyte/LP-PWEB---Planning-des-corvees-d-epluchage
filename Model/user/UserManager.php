@@ -48,69 +48,81 @@ class UserManager {
                     'colorId' => $user->getColorId(),
                     'admin' => $admin
                     ]
-                ]
-            );
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-    
-    public function delete($id) {
-        try { $this->collection->deleteOne(['_id' => new MongoDB\BSON\ObjectId($id)]); }
-        catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-    
-    public function login(string $email, string $password) {
-        $user = $this->findByEmail($email);
-        if ($user && password_verify($password, $user->password)) return $user;
-    }
-    
-    public function changePassword($id, string $newPassword) {
-        try {
-            $this->collection->updateOne(
-                ['_id' => new MongoDB\BSON\ObjectId($id)],
-                ['$set' => ['password' => password_hash($newPassword, PASSWORD_BCRYPT)]],
-            );
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-
-    public function findByDate(string $date) {
-        try { $cursor = $this->collection->findOne(['agenda' => $date]); }
-        catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $cursor;
-    }
-    
-    public function addDate(string $email, string $date) {
-        try {
-            $this->collection->updateOne(
-                ['email' => $email],
-                ['$push' => ['agenda' => $date]],
-            );
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-    
-    public function removeDate(string $email, string $date) {
-        try {
-            $this->collection->updateOne(
-                ['email' => $email],
-                ['$pull' => ['agenda' => $date]],
-            );
-        } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
-    }
-    
-/*     public function getEachAgendaLengthInAscOrder() {
-        try {
-            $filter = [];
-            $options = [
-                'projection' => [
-                    'firstName' => 1,
-                    'agenda' => 1
-                ],
-                'sort' => ['firstName' => 1]
-            ];
-            $query = new MongoDB\Driver\Query($filter, $options);
-            $readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
-            $cursor = $this->db->executeQuery($this->collectionName, $query, $readPreference);
-        } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
-        return $cursor->toArray();
-    } */
-}
-?>
+                    ]
+                );
+            } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        }
+        
+        public function delete($id) {
+            try { $this->collection->deleteOne(['_id' => new MongoDB\BSON\ObjectId($id)]); }
+            catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        }
+        
+        public function login(string $email, string $password) {
+            $user = $this->findByEmail($email);
+            if ($user && password_verify($password, $user->password)) return $user;
+        }
+        
+        public function changePassword($id, string $newPassword) {
+            try {
+                $this->collection->updateOne(
+                    ['_id' => new MongoDB\BSON\ObjectId($id)],
+                    ['$set' => ['password' => password_hash($newPassword, PASSWORD_BCRYPT)]],
+                );
+            } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        }
+        
+        public function findByDate(string $date) {
+            try { $cursor = $this->collection->findOne(['agenda' => $date]); }
+            catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+            return $cursor;
+        }
+        
+        public function addDate(string $email, string $date) {
+            try {
+                $this->collection->updateOne(
+                    ['email' => $email],
+                    ['$push' => ['agenda' => $date]],
+                );
+            } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        }
+        
+        public function removeDate(string $email, string $date) {
+            try {
+                $this->collection->updateOne(
+                    ['email' => $email],
+                    ['$pull' => ['agenda' => $date]],
+                );
+            } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
+        }
+        
+        public function getAgendaSizeInAscOrder() {
+            try {
+                $cursor = $this->collection->aggregate([
+                    ['$project' => [
+                        'email' => '$email',
+                        'datesNb' => ['$size' => '$agenda']
+                        ]],
+                        ['$sort' => ['datesNb' => 1]]
+                    ]);
+                } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+                return $cursor->toArray();
+            }
+            
+            public function getDatesNbByYear($annee) {
+                try {
+                    $cursor = $this->collection->aggregate([
+                        ['$unwind' => '$agenda'],
+                        ['$project' => [
+                            'dateBool' => [
+                                '$regexMatch' => [
+                                    'input' => '$agenda',
+                                    'regex' => $annee
+                                    ]]
+                                    ]]
+                                ]);
+                            } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
+                            return $cursor->toArray();
+                        }
+                    }
+                    ?>

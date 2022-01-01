@@ -16,8 +16,10 @@ class PlanningController {
         $dates = $this->getCalendar($annee);
         $anneesOptions = [2021, 2022, 2023, 2024, 2025];
         $users = $this->userManager->findAll();
-        //$agendas = $this->userManager->getEachAgendaLengthInAscOrder();
-        //var_dump($agendas);
+        $agendasInAscOrder = $this->userManager->getAgendaSizeInAscOrder();
+        $datesNbByYearInDescOrder = $this->userManager->getDatesNbByYear($annee);
+        $cptAnnee = 0;
+        foreach ($datesNbByYearInDescOrder as $date) if ($date->dateBool) $cptAnnee++;
         $page = "planning/calendrier";
         require_once("./View/main.php");
     }
