@@ -4,7 +4,7 @@
         <input type="email" name="email" placeholder="Mail" autofocus required/><br>
         <input type="password" name="password" placeholder="Mot de passe" required/><br>
         <div class="text"><?php if (isset($info)) echo($info) ?></div>
-        <p><input type="submit" class="submit-btn" value="Connect"></p>
+        <p><input type="submit" class="submit-btn" value="Connexion"></p>
     </form>
     <p></p>
     <div class="create-account">Vous n'avez pas de compte ? <a href='index.php?ctrl=user&method=create'>Créez-en un</a> !</div>
