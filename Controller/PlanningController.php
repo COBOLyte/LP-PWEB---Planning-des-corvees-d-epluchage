@@ -28,7 +28,6 @@ class PlanningController {
         $dates = $this->getCalendar($_POST['currentYear']);
         foreach($dates as $d) {
             $userAlreadyHavingTheDate = $this->userManager->findByDate($d);
-            var_dump($userAlreadyHavingTheDate);
             if ($_POST[$d] != "-") {
                 if ($userAlreadyHavingTheDate) $this->userManager->removeDate($userAlreadyHavingTheDate->email, $d);
                 $this->userManager->addDate($_POST[$d], $d);
