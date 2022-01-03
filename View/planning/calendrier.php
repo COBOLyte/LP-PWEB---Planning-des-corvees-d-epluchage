@@ -73,10 +73,10 @@
     </form>
 
     <h2 class="center">Statistiques</h2>
-    <h2 class="stats">Nombre de jours total occupés par l'utilisateur et par ordre croissant :</h2>
+    <h2 class="stats">Nombre de semaines total occupés par l'utilisateur et par ordre croissant :</h2>
     <ol>
         <?php foreach ($agendasInAscOrder as $entry) : ?>
-        <li><?php echo($entry->email . " : " . $entry->datesNb . " jour(s)"); ?></li>
+        <li><?php echo($entry->email . " : " . $entry->datesNb . " semaine(s)"); ?></li>
         <?php endforeach; ?>
     </ol>
-    <h2 class="stats">Nombre de jours occupés dans l'année <?php echo($annee); ?> : <span class="stats-normal"><?php echo($cptAnnee); ?> jour(s)</span></h2>
+    <h2 class="stats">Nombre de semaines occupés dans l'année <?php echo($annee); ?> : <span class="stats-normal"><?php echo($cptAnnee); ?> semaine(s)</span></h2>
