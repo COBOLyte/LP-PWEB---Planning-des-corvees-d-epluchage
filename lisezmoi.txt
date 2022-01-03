@@ -8,7 +8,7 @@
 - FONCTIONNALITÉS PERSONNELLES -
     ) Gestion des plannings seulement possible par les Admins. L'utilisateur normal ne peut que consulter les plannings.
     ) Possibilité de modifier la couleur rattachée à un utilisateur, sur la page de modification des données utilisateurs. (Seulement par les Admins)
-    ) Utilisation de la librairie PHP-MongoDB installée avec Composer, jugée plus simple de compréhension et d'utilisation, et ayant permis de réduire la quantité de code.
+    ) Utilisation de la librairie PHP-MongoDB installée avec Composer, jugée plus simple de compréhension et d'utilisation, ayant permis de réduire drastiquement la quantité de code, et toujours maintenue, contrairement au pilote PHP-MongoDB.
 
 - FONCTIONNALITÉS DÉVELOPPÉES ET ATTENDUES (Niveau de complétion) -
     ) Sélection d'une année pour faire défiler le calendrier : Finalisée

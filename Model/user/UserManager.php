@@ -47,8 +47,7 @@ class UserManager {
                     'country' => $user->getCountry(),
                     'colorId' => $user->getColorId(),
                     'admin' => $admin
-                    ]
-                    ]
+                    ]]
                 );
             } catch (MongoDB\Driver\Exception\BulkWriteException $e) { echo($e->getMessage()); }
         }
