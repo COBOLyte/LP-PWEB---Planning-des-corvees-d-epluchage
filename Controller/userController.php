@@ -3,7 +3,7 @@ class UserController {
     private $userManager;
     
     public function __construct($db) {
-        require_once("./Model/user/userManager.php");
+        require_once("./Model/user/UserManager.php");
         $this->userManager = new UserManager($db);
         $this->db = $db;
     }

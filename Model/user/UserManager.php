@@ -1,5 +1,5 @@
 <?php
-require_once("./Model/user/user.php");
+require_once("./Model/user/User.php");
 
 class UserManager {
     private $db;

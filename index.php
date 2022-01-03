@@ -1,6 +1,6 @@
 <?php
 require_once("vendor/autoload.php");
-require_once("./Model/connection.php");
+require_once("./Model/Connection.php");
 
 session_start();
 $connection = new Connection();
