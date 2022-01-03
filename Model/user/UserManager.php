@@ -102,17 +102,18 @@ class UserManager {
                         'email' => '$email',
                         'datesNb' => ['$size' => '$agenda']
                         ]],
-                        ['$sort' => ['datesNb' => 1]]
+                        ['$sort' => ['datesNb' => -1]]
                     ]);
                 } catch (MongoDB\Driver\ConnectionException $e) { echo($e->getMessage()); }
                 return $cursor->toArray();
             }
             
-            public function getDatesNbByYear($annee) {
+            public function getAllDatesBool($annee) {
                 try {
                     $cursor = $this->collection->aggregate([
                         ['$unwind' => '$agenda'],
                         ['$project' => [
+                            'email' => '$email',
                             'dateBool' => [
                                 '$regexMatch' => [
                                     'input' => '$agenda',

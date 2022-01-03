@@ -73,10 +73,19 @@
     </form>
 
     <h2 class="center">Statistiques</h2>
-    <h2 class="stats">Nombre de semaines total occupés par l'utilisateur et par ordre croissant :</h2>
-    <ol>
-        <?php foreach ($agendasInAscOrder as $entry) : ?>
+
+    <h3 class="stats">Nombre de semaines occupés par les utilisateurs en <?php echo($annee); ?>, par ordre croissant :</h2>
+    <ul>
+        <?php foreach ($agendasOfYearInAscOrderKeys as $email) : ?>
+        <li><?php echo($email . " : " . $agendasOfYearInAscOrder[$email] . " semaine(s)"); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    
+    <h3 class="stats">Nombre de semaines occupés en <?php echo($annee); ?> : <span class="stats-normal"><?php echo($cptAnnee); ?> semaine(s)</span></h3>
+
+    <h3 class="stats">Nombre de semaines total occupés par les utilisateurs, par ordre décroissant :</h2>
+    <ul>
+        <?php foreach ($agendasInDescOrder as $entry) : ?>
         <li><?php echo($entry->email . " : " . $entry->datesNb . " semaine(s)"); ?></li>
         <?php endforeach; ?>
-    </ol>
-    <h2 class="stats">Nombre de semaines occupés dans l'année <?php echo($annee); ?> : <span class="stats-normal"><?php echo($cptAnnee); ?> semaine(s)</span></h2>
+    </ul>

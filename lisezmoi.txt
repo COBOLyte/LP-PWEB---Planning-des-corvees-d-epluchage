@@ -11,10 +11,11 @@
     ) Utilisation de la librairie PHP-MongoDB installée avec Composer, jugée plus simple de compréhension et d'utilisation, ayant permis de réduire drastiquement la quantité de code, et est toujours maintenue, contrairement au pilote PHP-MongoDB.
 
 - FONCTIONNALITÉS DÉVELOPPÉES ET ATTENDUES (Niveau de complétion) -
-    ) Sélection d'une année pour faire défiler le calendrier : Finalisée
-    ) Données stockées et gérées dans une base de données MongoDB : Finalisée
-    ) Structure JSON finalisée de manière autonome (voir "structurejson_user.txt") : Finalisée
-    ) Accès à l'agenda conditionné par la connexion au compte de l'utilisateur : Finalisée
-    ) Affichage de statistiques calculées par des requêtes MongoDB : Partielle
-En effet, la requête permettant de récupérer le nombre de jours occupés dans l'année ne permet, en faîte, que de récupérer des valeurs booléennes pour chaque date enregistrée dans la BD (Vraie, si l'année recherchée, Faux, sinon). À partir de cela, le nombre de valeur "vraie" est compté et c'est ceci qui représente le résultat final.
-Face à la difficulté de cet exercice, le développement de cette requête-ci n'a pu aboutir et la solution présentée précédemment fut préconisée.
+    ) Sélection d'une année pour faire défiler le calendrier : Finalisé
+    ) Données stockées et gérées dans une base de données MongoDB : Finalisé
+    ) Structure JSON finalisée de manière autonome (voir "structurejson_user.txt") : Finalisé
+    ) Accès à l'agenda conditionné par la connexion au compte de l'utilisateur : Finalisé
+    ) Affichage de statistiques calculées par des requêtes MongoDB : Partiel
+En effet, la requête permettant de récupérer le nombre de jours occupés dans l'année ne permet, en faîte, que de récupérer des valeurs booléennes pour chaque date enregistrée dans la BD (Vraie, si l'année recherchée, Faux, sinon). À partir de cela, le nombre de valeur "vraie" est compté et c'est à partir de cela que nous obtenons le résultat final.
+De plus, les valeurs booléennes sont réutilisées pour compter le nombre de semaines occupés par un utilisateur, en incrémentant un entier dans un tableau associatif ([email => nbSemaines]).
+Face à la difficulté de l'exercice, le développement de ces deux requêtes n'a pu aboutir que partiellement et les solutions présentées précédemment finirent donc, par être préconisées.
